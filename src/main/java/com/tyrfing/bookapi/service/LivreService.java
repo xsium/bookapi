@@ -39,7 +39,7 @@ public class LivreService {
             livre.setId(id);
             return repo.save(livre);
         } else {
-            throw new RuntimeException("already exist");
+            throw new RuntimeException("Livre non trouvé pour l'ID : " + id);
         }
     }
 
