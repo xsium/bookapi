@@ -2,6 +2,9 @@ package com.tyrfing.bookapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.tyrfing.bookapi.exception.BookAlreadyExistException;
+import com.tyrfing.bookapi.exception.BookNotFound;
 import com.tyrfing.bookapi.model.Livre;
 import com.tyrfing.bookapi.repository.LivreRepository;
 import java.util.List;
@@ -20,12 +23,16 @@ public class LivreService {
         return (List<Livre>) repo.findAll();
     }
 
-    public Optional<Livre> getBookbyId(Long id) {
-        return repo.findById(id);
+    public Livre getBookbyId(Long id) {
+        return repo.findById(id).orElseThrow(() -> new BookNotFound(id));
     }
 
-    public void addLivre(Livre livre) {
-        repo.save(livre);
+    public Livre addLivre(Livre livre) {
+        Optional<Livre> booktest = Optional.ofNullable(repo.findByTitle(livre.getTitle()));
+        if (booktest.isPresent()) {
+            throw new BookAlreadyExistException(livre);
+        }
+        return repo.save(livre);
     }
 
     public void removeLivre(Long id) {

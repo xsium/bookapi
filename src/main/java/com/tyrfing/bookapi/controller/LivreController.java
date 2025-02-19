@@ -27,13 +27,13 @@ public class LivreController {
     }
 
     @GetMapping("/book/{id}")
-    public Optional<Livre> getBookbyId(@PathVariable Long id) {
+    public Livre getBookbyId(@PathVariable Long id) {
         return bookService.getBookbyId(id);
     }
 
     @PostMapping("/book")
-    public void addLivre(@RequestBody Livre livre) {
-        bookService.addLivre(livre);
+    public Livre addLivre(@RequestBody Livre livre) {
+        return bookService.addLivre(livre);
     }
 
     @DeleteMapping("/book/{id}")
