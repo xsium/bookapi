@@ -32,14 +32,17 @@ public class LivreService {
         repo.deleteById(id);
     }
 
-    public Livre patchLivreById(Long id, Livre livre) {
-        Optional<Livre> newbook = repo.findById(id);
+    public Optional<Livre> patchLivreById(Long id, Livre livre) {
+        Optional<Livre> bookToPatch = repo.findById(id);
 
-        if (newbook.isPresent()) {
-            livre.setId(id);
-            return repo.save(livre);
+        if (bookToPatch.isPresent()) {
+            bookToPatch.get().setTitle(livre.getTitle());
+            bookToPatch.get().setDesc(livre.getDesc());
+            bookToPatch.get().setPublicationDate(livre.getPublicationDate());
+            return Optional.of(repo.save(bookToPatch.get()));
         } else {
             throw new RuntimeException("Livre non trouvé pour l'ID : " + id);
+
         }
     }
 

@@ -12,9 +12,9 @@ import com.tyrfing.bookapi.service.LivreService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class LivreController {
@@ -26,23 +26,23 @@ public class LivreController {
         return bookService.getAllLivres();
     }
 
-    @GetMapping("/book")
-    public Optional<Livre> getBookbyId(@RequestParam Long id) {
+    @GetMapping("/book/{id}")
+    public Optional<Livre> getBookbyId(@PathVariable Long id) {
         return bookService.getBookbyId(id);
     }
 
-    @PostMapping("/addbook")
+    @PostMapping("/book")
     public void addLivre(@RequestBody Livre livre) {
         bookService.addLivre(livre);
     }
 
-    @DeleteMapping("/bookdel")
-    public void removeLivre(@RequestParam Long id) {
+    @DeleteMapping("/book/{id}")
+    public void removeLivre(@PathVariable Long id) {
         bookService.removeLivre(id);
     }
 
-    @PatchMapping("/bookupdate")
-    public Livre patchLivre(@RequestParam Long id, @RequestBody Livre livre) {
+    @PatchMapping("/book/{id}")
+    public Optional<Livre> patchLivre(@PathVariable Long id, @RequestBody Livre livre) {
         return bookService.patchLivreById(id, livre);
 
     }
